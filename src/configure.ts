@@ -29,8 +29,17 @@ async function locateExternalConfig() {
 
 export async function configure(params: string[]) {
   try {
-    const x = await findUp('envConfig.js');
-    const config = require(x as string) as Config;
+    const configPath = await findUp('envConfig.js');
+    if (!configPath){
+      console.log('Cannot find the file: envConfig.js \n');
+      console.log(
+      'For more references, see the documentation.: ',
+      'https://github.com/Mariachi-IO/aws-parameter-store-env-manager',
+      );
+      process.exit(0);
+      return;
+    }
+    const config = require(configPath as string) as Config;
     const envNames = config.envs
       .map((configEnv: ConfigEnv, i: number) => `${i + 1}. ${configEnv.name}.\n`, '')
       .join('');
