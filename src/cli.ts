@@ -15,4 +15,3 @@ switch (args[0]) {
     process.exit(0);
     break;
 }
-

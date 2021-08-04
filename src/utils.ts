@@ -3,5 +3,5 @@ export function getDate(date: Date) {
 }
 
 export function paramAsNumber(option: string): number {
-  return +option
+  return +option;
 }
