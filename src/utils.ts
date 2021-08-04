@@ -1,4 +1,4 @@
-const { promises: Fs } = require('fs')
+const { promises: Fs } = require('fs');
 
 export function getDate(date: Date) {
   return date.toISOString().replace(/T/, ' ').replace(/\..+/, '');
@@ -10,9 +10,9 @@ export function paramAsNumber(option: string): number {
 
 export async function fileExists(path: string | undefined) {
   try {
-    await Fs.access(path)
-    return true
+    await Fs.access(path);
+    return true;
   } catch {
-    return false
+    return false;
   }
 }
