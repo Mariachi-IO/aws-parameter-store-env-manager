@@ -3,10 +3,10 @@
 import { Config, ConfigEnv, Parameters } from './@types';
 import { fetchParametersByRoute } from './awsUtils';
 import { getDate, paramAsNumber } from './utils';
+const findUp = require('find-up');
 
 const readline = require('readline');
 const fs = require('fs');
-const config = require('../envConfig') as Config;
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -23,8 +23,14 @@ function question(message: string) {
   );
 }
 
+async function locateExternalConfig() {
+  return findUp('envConifg.js');
+}
+
 export async function configure(params: string[]) {
   try {
+    const x = await findUp('envConfig.js');
+    const config = require(x as string) as Config;
     const envNames = config.envs
       .map((configEnv: ConfigEnv, i: number) => `${i + 1}. ${configEnv.name}.\n`, '')
       .join('');
