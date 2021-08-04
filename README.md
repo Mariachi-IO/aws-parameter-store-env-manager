@@ -39,3 +39,12 @@ The names `"semi"` and `"quotes"` are the names of [rules](https://eslint.org/do
 
 To find how to set up your environments in AWS Parameter Store check this documentation
 https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-parameter-store.html
+
+
+### Usage
+
+You can use directly in you project repository 
+
+```
+env-manager configure
+```
