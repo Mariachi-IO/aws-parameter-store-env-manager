@@ -16,18 +16,18 @@ const rl = readline.createInterface({
 function question(message: string) {
   console.clear();
   return new Promise((resolve) =>
-  rl.question(message, (option: string) => {
-    console.clear();
-    resolve(option);
-  }),
+    rl.question(message, (option: string) => {
+      console.clear();
+      resolve(option);
+    }),
   );
 }
 
 export async function configure(params: string[]) {
   try {
     const envNames = config.envs
-    .map((configEnv: ConfigEnv, i: number) => `${i + 1}. ${configEnv.name}.\n`, '')
-    .join('');
+      .map((configEnv: ConfigEnv, i: number) => `${i + 1}. ${configEnv.name}.\n`, '')
+      .join('');
     let option: number;
     if (params[0]) {
       option = paramAsNumber(params[0]);
@@ -39,31 +39,31 @@ export async function configure(params: string[]) {
     }
     const env = config.envs[option - 1];
     if (!env) {
-      console.log("No environment found")
+      console.log('No environment found');
       return;
     }
     console.log(`Environment \"${env.name}\" selected`);
 
     const parametersResponses = await Promise.all(
-    env.paths.map(async (path) => {
-      const response = (await fetchParametersByRoute(path)) as string;
-      const parameterResponse = JSON.parse(response) as Parameters;
-      return [...parameterResponse.Parameters];
-    }),
+      env.paths.map(async (path) => {
+        const response = (await fetchParametersByRoute(path)) as string;
+        const parameterResponse = JSON.parse(response) as Parameters;
+        return [...parameterResponse.Parameters];
+      }),
     );
     let content = '';
     parametersResponses.forEach((parameters) =>
-    parameters.forEach((parameter) => {
-      const path = parameter.Name;
-      const index = path.lastIndexOf('/');
-      const name = path.substring(index + 1, path.length);
-      let date = '';
-      if (config.enableUpdateDate) {
-        date = `  # updated - ${getDate(new Date(parameter.LastModifiedDate))}`;
-      }
-      console.log(`${name}=${parameter.Value}${date}`);
-      content += `${name}=${parameter.Value}${date}\n`;
-    }),
+      parameters.forEach((parameter) => {
+        const path = parameter.Name;
+        const index = path.lastIndexOf('/');
+        const name = path.substring(index + 1, path.length);
+        let date = '';
+        if (config.enableUpdateDate) {
+          date = `  # updated - ${getDate(new Date(parameter.LastModifiedDate))}`;
+        }
+        console.log(`${name}=${parameter.Value}${date}`);
+        content += `${name}=${parameter.Value}${date}\n`;
+      }),
     );
     const dateContent = `# [env-manager] automatically updated on ${getDate(new Date())}\n`;
     fs.writeFileSync(config.filePath, dateContent.concat(content));
