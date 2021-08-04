@@ -15,6 +15,7 @@
     "preversion": "npm run lint",
     "version": "npm run format && git add -A src",
     "postversion": "git push && git push --tags",
+    "patch:publish": "npm version patch && npm publish",
     "link": "npm link"
   },
   "keywords": [
