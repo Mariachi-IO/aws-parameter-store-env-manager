@@ -1,6 +1,6 @@
 {
   "name": "aws-parameter-store-env-manager",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "A nice greeter",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
