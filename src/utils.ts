@@ -1,11 +1,17 @@
+import { ConfigEnv } from './@types';
+
 const { promises: Fs } = require('fs');
 
 export function getDate(date: Date) {
   return date.toISOString().replace(/T/, ' ').replace(/\..+/, '');
 }
 
-export function paramAsNumber(option: string): number {
-  return +option;
+export function getIndexParam(envs: ConfigEnv[], option: string): number {
+  if (Number.parseInt(option,10)) {
+    return +option;
+  } else {
+    return envs.findIndex((env) => env.name === option) + 1;
+  }
 }
 
 export async function fileExists(path: string | undefined) {
@@ -32,4 +38,9 @@ export function formatParameter(parameter: string) {
     range = 4;
   }
   return `****${parameter.slice(parameter.length - range)}`;
+}
+
+export function findFirstByKeyValue(array: [], key: string, match: string) {
+  const index = array.findIndex((env) => env[key] === match);
+  return array[index];
 }

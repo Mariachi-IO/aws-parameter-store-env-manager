@@ -2,7 +2,7 @@
 
 import { Config, ConfigEnv, Parameters } from './@types';
 import { fetchParametersByRoute } from './awsUtils';
-import { formatParameter, getDate, paramAsNumber } from './utils';
+import { formatParameter, getDate, getIndexParam } from './utils';
 
 const readline = require('readline');
 const fs = require('fs');
@@ -40,7 +40,7 @@ export async function configure(params: string[]) {
       .join('');
     let option: number;
     if (params[0]) {
-      option = paramAsNumber(params[0]);
+      option = getIndexParam(config.envs, params[0]);
     } else {
       option = (await question(`Which env do you want to configure?\n${envNames}`)) as number;
       if (option < 1 || option > config.envs.length) {

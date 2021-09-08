@@ -13,6 +13,12 @@ You can install aws-parameter-store-env-manager using npm:
 $ npm install aws-parameter-store-env-manager --save-dev
 ```
 
+You can also install with `yarn`
+
+```
+$ yarn add -D aws-parameter-store-env-manager
+```
+
 ## <a name="configuration"></a>Configuration
 
 You need to create a `envconfig.js` file in your root directoy with structure like:
@@ -22,12 +28,11 @@ module.exports = {
   filePath: '.env',
   envs: [
     { name: 'development', paths: ['/path/common/', '/path/development'] },
+    { name: 'staging', paths: ['/path/common/', '/path/staging'] },
     { name: 'production', paths: ['/path/common/', '/path/production'] },
   ],
 };
 ```
-
-The names `"semi"` and `"quotes"` are the names of [rules](https://eslint.org/docs/rules) in ESLint. The first value is the error level of the rule and can be one of these values:
 
 * `filePath:` The name of your file
 * `envs` Define your environments like `development`, `staging`, `production`or whatever you use
@@ -45,4 +50,23 @@ You can use directly in you project repository
 
 ```
 npx env-manager configure
+```
+
+To use without interactive console you could directly pass the `index` param or `name` of the param e.g.
+
+```javascript
+module.exports = {
+  filePath: '.env',
+  envs: [
+    { name: 'development', paths: ['/path/common/', '/path/development'] },
+    { name: 'production', paths: ['/path/common/', '/path/production'] },
+  ],
+};
+```
+
+```
+npx env-manager configure 1 // default select development environment
+npx env-manager configure 2 // default select production environment
+npx env-manager configure development // default select development environment
+npx env-manager configure production // default select production environment
 ```
