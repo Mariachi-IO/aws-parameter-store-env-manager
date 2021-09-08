@@ -7,7 +7,7 @@ export function getDate(date: Date) {
 }
 
 export function getIndexParam(envs: ConfigEnv[], option: string): number {
-  if (Number.parseInt(option,10)) {
+  if (Number.parseInt(option, 10)) {
     return +option;
   } else {
     return envs.findIndex((env) => env.name === option) + 1;
