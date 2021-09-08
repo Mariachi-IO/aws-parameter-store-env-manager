@@ -17,18 +17,18 @@ export async function fileExists(path: string | undefined) {
   }
 }
 
-export function formatParameter(parameter: string){
+export function formatParameter(parameter: string) {
   let range = 0;
-  if (parameter.length > 1 && parameter.length <= 3){
+  if (parameter.length > 1 && parameter.length <= 3) {
     range = 1;
   }
-  if (parameter.length > 3 && parameter.length <= 5){
+  if (parameter.length > 3 && parameter.length <= 5) {
     range = 2;
   }
-  if (parameter.length === 6){
+  if (parameter.length === 6) {
     range = 3;
   }
-  if (parameter.length > 6){
+  if (parameter.length > 6) {
     range = 4;
   }
   return `****${parameter.slice(parameter.length - range)}`;
