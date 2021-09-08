@@ -2,8 +2,7 @@
 
 import { Config, ConfigEnv, Parameters } from './@types';
 import { fetchParametersByRoute } from './awsUtils';
-import { getDate, paramAsNumber } from './utils';
-const findUp = require('find-up');
+import { formatParameter, getDate, paramAsNumber } from './utils';
 
 const readline = require('readline');
 const fs = require('fs');
@@ -23,23 +22,19 @@ function question(message: string) {
   );
 }
 
-async function locateExternalConfig() {
-  return findUp('envConifg.js');
-}
-
 export async function configure(params: string[]) {
   try {
-    const configPath = await findUp('envConfig.js');
-    if (!configPath) {
+    const configPath = `${process.cwd()}/envConfig.js`;
+    const config = require(configPath as string) as Config;
+    if (!config) {
       console.log('Cannot find the file: envConfig.js \n');
       console.log(
-        'For more references, see the documentation.: ',
-        'https://github.com/Mariachi-IO/aws-parameter-store-env-manager',
+      'For more references, see the documentation.: ',
+      'https://github.com/Mariachi-IO/aws-parameter-store-env-manager',
       );
       process.exit(0);
       return;
     }
-    const config = require(configPath as string) as Config;
     const envNames = config.envs
       .map((configEnv: ConfigEnv, i: number) => `${i + 1}. ${configEnv.name}.\n`, '')
       .join('');
@@ -76,8 +71,8 @@ export async function configure(params: string[]) {
         if (config.enableUpdateDate) {
           date = `  # updated - ${getDate(new Date(parameter.LastModifiedDate))}`;
         }
-        console.log(`${name}=${parameter.Value}${date}`);
-        content += `${name}=${parameter.Value}${date}\n`;
+        console.log(`${name}=${formatParameter(parameter.Value)}`);
+        content += `${name}=${parameter.Value}\n`;
       }),
     );
     const dateContent = `# [env-manager] automatically updated on ${getDate(new Date())}\n`;

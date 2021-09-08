@@ -2,8 +2,6 @@
 
 // Grab provided args
 import { configure } from './configure';
-import { fileExists } from './utils';
-const Path = require('path');
 
 const [, , ...args] = process.argv;
 
