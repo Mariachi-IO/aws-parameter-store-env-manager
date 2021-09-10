@@ -61,7 +61,7 @@ export async function configure(params: string[]) {
         return [...parameterResponse.Parameters];
       }),
     );
-    let content = '';
+    let content: string[] = [];
     parametersResponses.forEach((parameters) =>
       parameters.forEach((parameter) => {
         const path = parameter.Name;
@@ -72,11 +72,13 @@ export async function configure(params: string[]) {
           date = `  # updated - ${getDate(new Date(parameter.LastModifiedDate))}`;
         }
         console.log(`${name}=${formatParameter(parameter.Value)}`);
-        content += `${name}=${parameter.Value}\n`;
+        content.push(`${name}=${parameter.Value}`);
       }),
     );
-    const dateContent = `# [env-manager] automatically updated on ${getDate(new Date())}\n`;
-    fs.writeFileSync(config.filePath, dateContent.concat(content));
+    content = content.sort( (a,b) => a.localeCompare(b));
+    const output = content.reduce((acc,next) => `${acc}\n${next}`  , '')
+    const dateContent = `# [env-manager] automatically updated on ${getDate(new Date())}`;
+    fs.writeFileSync(config.filePath, dateContent.concat(output));
   } catch (e) {
     console.error(e);
   }
