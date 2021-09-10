@@ -75,8 +75,8 @@ export async function configure(params: string[]) {
         content.push(`${name}=${parameter.Value}`);
       }),
     );
-    content = content.sort( (a,b) => a.localeCompare(b));
-    const output = content.reduce((acc,next) => `${acc}\n${next}`  , '')
+    content = content.sort((a, b) => a.localeCompare(b));
+    const output = content.reduce((acc, next) => `${acc}\n${next}`, '');
     const dateContent = `# [env-manager] automatically updated on ${getDate(new Date())}`;
     fs.writeFileSync(config.filePath, dateContent.concat(output));
   } catch (e) {
